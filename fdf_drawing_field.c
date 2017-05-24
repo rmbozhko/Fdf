@@ -28,7 +28,6 @@ void 			fdf_bresenheim(t_pnt *pnt1, t_pnt *pnt2, t_env *e, int error2)
 
 	b.x = (int)pnt1->x;
 	b.y = (int)pnt1->y;
-	b.flag = 1;
 	b.last_pnt = pnt2;
 	b.del_x = abs((int)b.last_pnt->x - b.x);
     b.del_y = abs((int)b.last_pnt->y - b.y);

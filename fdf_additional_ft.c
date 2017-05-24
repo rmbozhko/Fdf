@@ -6,7 +6,7 @@
 /*   By: rbozhko <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/24 13:26:44 by rbozhko           #+#    #+#             */
-/*   Updated: 2017/03/24 13:27:52 by rbozhko          ###   ########.fr       */
+/*   Updated: 2017/05/24 15:19:23 by rbozhko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,9 @@ void		fdf_img_to_centre(t_env *e)
 
 void		fdf_get_pnt_distance(t_env *e)
 {
-	int 		multiplication;
-	int 		counter;
-	int 		delimiter;
+	int		multiplication;
+	int		counter;
+	int		delimiter;
 
 	counter = 0;
 	multiplication = e->xlen * e->ylen;
@@ -48,10 +48,10 @@ void		fdf_get_pnt_distance(t_env *e)
 
 void		fdf_get_win_img_size(t_env *e)
 {
-	int 		default_win_img_size;
-	int 		multiplication;
-	int 		h_counter;
-	int 		l_counter;
+	int		default_win_img_size;
+	int		multiplication;
+	int		h_counter;
+	int		l_counter;
 
 	multiplication = e->xlen * e->ylen;
 	default_win_img_size = 400;
@@ -61,7 +61,7 @@ void		fdf_get_win_img_size(t_env *e)
 	{
 		while (!(l_counter >= multiplication && multiplication <= h_counter))
 		{
-			default_win_img_size += (h_counter > 400) ? 100 : 0; 
+			default_win_img_size += (h_counter > 400) ? 100 : 0;
 			l_counter += 100;
 			h_counter += 100;
 		}
@@ -73,7 +73,7 @@ void		fdf_get_win_img_size(t_env *e)
 	}
 }
 
-void	fdf_exit(t_env *e)
+void		fdf_exit(t_env *e)
 {
 	mlx_destroy_window(e->mlx_ptr, e->win_ptr);
 	exit(0);
