@@ -6,37 +6,15 @@
 /*   By: rbozhko <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/22 14:28:00 by rbozhko           #+#    #+#             */
-/*   Updated: 2017/04/15 15:34:24 by rbozhko          ###   ########.fr       */
+/*   Updated: 2017/05/24 15:12:19 by rbozhko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-static void		fdf_drawing_base_last_pxls(t_env *e, t_brezenheim *b, t_pnt *pnt)
-{
-	(e->str[(int)(4 * b->base_pnt.x + b->base_pnt.y * e->sl)]) = fdf_pxl_color(b->last_pnt->color);
-	(e->str[(int)(4 * b->base_pnt.x + b->base_pnt.y * e->sl + 1)]) = fdf_pxl_color(b->last_pnt->color);
-	(e->str[(int)(4 * b->base_pnt.x + b->base_pnt.y * e->sl + 2)]) = fdf_pxl_color(b->last_pnt->color);
-	(e->str[(int)(4 * b->last_pnt->x + b->last_pnt->y * e->sl)]) = fdf_pxl_color(b->last_pnt->color);
-	(e->str[(int)(4 * b->last_pnt->x + b->last_pnt->y * e->sl + 1)]) = fdf_pxl_color(b->last_pnt->color);
-	(e->str[(int)(4 * b->last_pnt->x + b->last_pnt->y * e->sl + 2)]) = fdf_pxl_color(b->last_pnt->color);
-	b->flag = 0;
-}
-
 static void		fdf_drawing_pxl(t_env *e, t_brezenheim *b, t_pnt *pnt)
 {
-
-	if ((e->gradient) && DRAWING_PXL_COND_SEC)
-	{
-		(b->flag) ? fdf_drawing_base_last_pxls(e, b, pnt) : 0;
-		e->str[(int)(4 * b->temp_pnt.x + b->temp_pnt.y * e->sl)] =  ((int)(((e->str[(int)(4 * b->last_pnt->x + b->last_pnt->y * e->sl)])
-				- (e->str[(int)(4 * b->base_pnt.x + b->base_pnt.y * e->sl)])) / b->distance) + (e->str[(int)(4 * b->base_pnt.x + b->base_pnt.y * e->sl)]));
-		e->str[(int)(4 * b->temp_pnt.x + b->temp_pnt.y * e->sl + 1)] = (((int)((e->str[(int)(4 * b->last_pnt->x + b->last_pnt->y * e->sl + 1)])
-				- (e->str[(int)(4 * b->base_pnt.x + b->base_pnt.y * e->sl + 1)])) / b->distance) + (e->str[(int)(4 * b->base_pnt.x + b->base_pnt.y * e->sl + 1)]));
-		e->str[(int)(4 * b->temp_pnt.x + b->temp_pnt.y * e->sl + 2)] = (((int)((e->str[(int)(4 * b->last_pnt->x + b->last_pnt->y * e->sl + 2)])
-				- (e->str[(int)(4 * b->base_pnt.x + b->base_pnt.y * e->sl + 2)])) / b->distance) + (e->str[(int)(4 * b->base_pnt.x + b->base_pnt.y * e->sl + 2)]));
-	}
-	else if (DRAWING_PXL_COND && !(e->gradient))
+	if (DRAWING_PXL_COND && !(e->gradient))
 	{
 		e->str[(4 * b->x + b->y * e->sl)] = fdf_pxl_color(pnt->color);
 		e->str[(4 * b->x + b->y * e->sl + 1)] = fdf_pxl_color(pnt->color);
@@ -57,7 +35,6 @@ void 			fdf_bresenheim(t_pnt *pnt1, t_pnt *pnt2, t_env *e, int error2)
     b.sign_x = b.x < (int)b.last_pnt->x ? 1 : -1;
     b.sign_y = b.y < (int)b.last_pnt->y ? 1 : -1;
     b.error = b.del_x - b.del_y;
-    b.distance = fdf_get_pnt_distance_grad(pnt1, (b.last_pnt), 0);
     while(b.x != (int)b.last_pnt->x || b.y != (int)b.last_pnt->y) 
    {
    		b.base_pnt.x = b.temp_pnt.x;
