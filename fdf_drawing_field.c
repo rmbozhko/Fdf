@@ -24,15 +24,15 @@ static void		fdf_drawing_pxl(t_env *e, t_brezenheim *b)
 
 void			fdf_bresenheim(t_brezenheim *b, t_pnt *pnt1, t_env *e)
 {
-	b->del_x = abs((int)b->last_pnt->x - (b->x = (int)pnt1->x));
-	b->del_y = abs((int)b->last_pnt->y - (b->y = (int)pnt1->y));
+	b->x = (int)pnt1->x;
+	b->y = (int)pnt1->y;
+	b->del_x = abs((int)b->last_pnt->x - b->x);
+	b->del_y = abs((int)b->last_pnt->y - b->y);
 	b->sign_x = b->x < (int)b->last_pnt->x ? 1 : -1;
 	b->sign_y = b->y < (int)b->last_pnt->y ? 1 : -1;
 	b->error = b->del_x - b->del_y;
 	while (b->x != (int)b->last_pnt->x || b->y != (int)b->last_pnt->y)
 	{
-		b->base_pnt.x = b->temp_pnt.x;
-		b->base_pnt.y = b->temp_pnt.y;
 		b->error2 = b->error * 2;
 		if (b->error2 > -b->del_y)
 		{

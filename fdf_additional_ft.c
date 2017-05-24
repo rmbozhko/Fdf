@@ -72,9 +72,3 @@ void		fdf_get_win_img_size(t_env *e)
 		e->win_img_size = MAX_WIN_IMG_SIZE;
 	}
 }
-
-void		fdf_exit(t_env *e)
-{
-	mlx_destroy_window(e->mlx_ptr, e->win_ptr);
-	exit(0);
-}

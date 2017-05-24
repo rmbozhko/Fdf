@@ -45,14 +45,6 @@ int				key_hook(int keycode, t_env *e)
 		(keycode == 85) ? fdf_rotate_z(e, 1) : fdf_rotate_z(e, -1);
 	else if (keycode >= 18 && keycode <= 28)
 		fdf_change_rotation_angle(e, keycode);
-	else if (keycode == 76)
-	{
-		e->gradient = (!(e->gradient)) ? 1 : 0;
-		fdf_drawing_field(e);
-		printf("-----------------\n");
-	}
-	else
-		printf("Keycode of the pressed button: %d\n", keycode);
 	return (keycode);
 }
 
