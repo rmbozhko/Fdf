@@ -69,6 +69,10 @@ void			fdf_drawing_field(t_env *e)
 		{
 			pnt = *(e->field_ptr[y][x]);
 			b.color = (int)pnt.color;
+			// printf("X: %d : %d : %d\n", x, x + 1, e->xlen);
+			// printf("y: %d : %d : %d\n", y, y + 1, e->ylen);
+			if (x + 1 == e->xlen || y + 1 == e->ylen)
+				break ; 
 			b.last_pnt = (e->field_ptr[y][x + 1]) ? e->field_ptr[y][x + 1] : 0;
 			(e->field_ptr[y][x + 1]) ? fdf_bresenheim(&b, &pnt, e) : 0;
 			b.last_pnt = (e->field_ptr[y + 1][x]) ? e->field_ptr[y + 1][x] : 0;
@@ -77,3 +81,52 @@ void			fdf_drawing_field(t_env *e)
 	}
 	mlx_put_image_to_window(e->mlx_ptr, e->win_ptr, e->img_ptr, 0, 0);
 }
+
+// OR || ИЛИ || ODER 
+
+// void			fdf_drawing_field(t_env *e)
+// {
+// 	int					x;
+// 	int					y;
+// 	t_pnt				pnt;
+// 	t_brezenheim		b;
+
+// 	b.error2 = 0;
+// 	(e->img_ptr && (y = -1)) ? mlx_destroy_image(e->mlx_ptr, e->img_ptr) : 0;
+// 	// write(1, "Let's go deeper!\n", 17);
+// 	e->img_ptr = mlx_new_image(e->mlx_ptr, e->win_img_size, e->win_img_size);
+// 	// write(1, "Let's went deeper!\n", 19);
+// 	e->str = mlx_get_data_addr(e->img_ptr, &e->bpp, &e->sl, &e->endian);
+// 	// write(1, "Let's gone deeper!\n", 19);
+// 	fdf_img_to_centre(e);
+// 	// write(1, "Really?!\n", 9);
+// 	// printf("length-es: %d : %d\n", e->ylen, e->xlen);
+// 	while (++y < e->ylen && (x = -1))
+// 	{
+// 		// write(1, "WTF, do you have problems?\n", 27);
+// 		// printf("Y: %d\n", y);
+// 		while (++x < e->xlen)
+// 		{
+// 			// write(1, "You surely do have problems!\n", 29);
+// 			// printf("X: %d : %d : %d\n", x, x + 1, e->xlen);
+// 			pnt = *(e->field_ptr[y][x]);
+// 			// printf("data: %d:%d\n", pnt.x, pnt.y);
+// 			b.color = (int)pnt.color;
+// 			if (x + 1 < e->xlen)
+// 			{
+// 				b.last_pnt = (e->field_ptr[y][x + 1]) ? e->field_ptr[y][x + 1] : 0;
+// 				(e->field_ptr[y][x + 1]) ? fdf_bresenheim(&b, &pnt, e) : 0;
+// 			}
+// 			// write(1, "Mayday, Mayday!\n", 16);
+// 			printf("y: %d : %d : %d\n", y, y + 1, e->ylen);
+// 			if (y + 1 < e->ylen)
+// 			{
+// 				b.last_pnt = (e->field_ptr[y + 1][x]) ? e->field_ptr[y + 1][x] : 0;
+// 				(e->field_ptr[y + 1][x]) ? fdf_bresenheim(&b, &pnt, e) : 0;
+// 			}
+// 			// write(1, "sos!\n", 5);
+// 		}
+// 	}
+// 	write(1, "So deep?!\n", 10);
+// 	mlx_put_image_to_window(e->mlx_ptr, e->win_ptr, e->img_ptr, 0, 0);
+// }
