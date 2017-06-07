@@ -18,16 +18,16 @@ void		fdf_img_to_centre(t_env *e)
 	int		y;
 
 	y = -1;
-	e->win_move_x = (((e->field_ptr[e->ylen - 1][e->xlen - 1]->x
-					+ e->field_ptr[0][0]->x) / 2));
-	e->win_move_y = (((e->field_ptr[e->ylen - 1][e->xlen - 1]->y
-					+ e->field_ptr[0][0]->y) / 2));
+	e->win_move_x = (((e->fld_ptr[e->ylen - 1][e->xlen - 1]->x
+					+ e->fld_ptr[0][0]->x) / 2));
+	e->win_move_y = (((e->fld_ptr[e->ylen - 1][e->xlen - 1]->y
+					+ e->fld_ptr[0][0]->y) / 2));
 	while (++y < e->ylen && (x = -1))
 	{
 		while (++x < e->xlen)
 		{
-			e->field_ptr[y][x]->x += (e->win_img_size / 2) - e->win_move_x;
-			e->field_ptr[y][x]->y += (e->win_img_size / 2) - e->win_move_y;
+			e->fld_ptr[y][x]->x += (e->win_img_size / 2) - e->win_move_x;
+			e->fld_ptr[y][x]->y += (e->win_img_size / 2) - e->win_move_y;
 		}
 	}
 }
@@ -68,7 +68,5 @@ void		fdf_get_win_img_size(t_env *e)
 		e->win_img_size = default_win_img_size;
 	}
 	else
-	{
 		e->win_img_size = MAX_WIN_IMG_SIZE;
-	}
 }

@@ -39,7 +39,7 @@ typedef struct	s_pnt
 typedef struct	s_brezenheim
 {
 	t_pnt		temp_pnt;
-	t_pnt		*last_pnt;
+	t_pnt		*l_pnt;
 	int			x;
 	int			y;
 	int			del_x;
@@ -53,7 +53,6 @@ typedef struct	s_brezenheim
 
 typedef struct	s_env
 {
-	int				gradient : 2;
 	int				xlen;
 	int				ylen;
 	int				pnt_dist;
@@ -69,11 +68,11 @@ typedef struct	s_env
 	int				sl;
 	int				endian;
 	int				bpp;
-	t_pnt			***field_ptr;
+	t_pnt			***fld_ptr;
 }				t_env;
 
 t_env			*fdf_create_structures_arr(char *av, t_env *e);
-void			fdf_drawing_field(t_env *e);
+void			fdf_drawing_field(t_env *e, int x, int y, t_brezenheim *b);
 void			fdf_no_map(void);
 void			fdf_exit(t_env *e);
 void			fdf_malloc_fail(void);

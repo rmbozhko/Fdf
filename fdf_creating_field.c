@@ -33,16 +33,15 @@ static void			fdf_fullfil_field_s(t_env *e, char **temp, int y)
 	i = -1;
 	j = -1;
 	while (temp[++i])
-		e->field_ptr[y][++j] = fdf_create_point((double)i,
+		e->fld_ptr[y][++j] = fdf_create_point((double)i,
 				(double)y, ((double)atoi(temp[i])), e);
-	e->field_ptr[y][++j] = NULL;
+	e->fld_ptr[y][++j] = NULL;
 }
 
 static void			fdf_fullfil_field_f(char *av, t_env *e)
 {
 	int		fd;
 	int		y;
-	int		i;
 	char	*line;
 	char	**temp;
 
@@ -51,12 +50,12 @@ static void			fdf_fullfil_field_f(char *av, t_env *e)
 		fdf_error(e);
 	while (get_next_line(fd, &line) > 0)
 	{
-		if (!(e->field_ptr[++y] = (t_pnt**)malloc(sizeof(t_pnt*) * e->xlen)))
+		if (!(e->fld_ptr[++y] = (t_pnt**)malloc(sizeof(t_pnt*) * e->xlen)))
 			fdf_malloc_fail();
 		temp = ft_strsplit(line, 32);
 		fdf_fullfil_field_s(e, temp, y);
 	}
-	e->field_ptr[++y] = (t_pnt**)malloc(sizeof(t_pnt*) * e->xlen);
+	e->fld_ptr[++y] = (t_pnt**)malloc(sizeof(t_pnt*) * e->xlen);
 	close(fd);
 }
 
@@ -77,7 +76,7 @@ t_env				*fdf_create_structures_arr(char *av, t_env *e)
 	temp = ft_strsplit(line, ' ');
 	while (temp[i++] != 0)
 		e->xlen++;
-	if ((e->field_ptr = (t_pnt***)malloc(sizeof(t_pnt**) * e->ylen)) == NULL)
+	if ((e->fld_ptr = (t_pnt***)malloc(sizeof(t_pnt**) * e->ylen)) == NULL)
 		fdf_malloc_fail();
 	close(fd);
 	fdf_get_pnt_distance(e);

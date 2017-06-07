@@ -14,9 +14,10 @@
 
 void			fdf_zoom(t_env *e, int keycode)
 {
-	int		x;
-	int		y;
-	double	coefficient;
+	int					x;
+	int					y;
+	double				coefficient;
+	t_brezenheim		b;
 
 	y = -1;
 	coefficient = (keycode == 69) ? 1.1 : 0.9;
@@ -24,75 +25,78 @@ void			fdf_zoom(t_env *e, int keycode)
 	{
 		while (++x < e->xlen)
 		{
-			e->field_ptr[y][x]->x *= coefficient;
-			e->field_ptr[y][x]->y *= coefficient;
+			e->fld_ptr[y][x]->x *= coefficient;
+			e->fld_ptr[y][x]->y *= coefficient;
 		}
 	}
-	fdf_drawing_field(e);
+	fdf_drawing_field(e, -1, -1, &b);
 }
 
 void			fdf_rotate_x(t_env *e, int quarter)
 {
-	int		x;
-	int		y;
-	double	tmpz;
-	double	tmpy;
+	int					x;
+	int					y;
+	double				tmpz;
+	double				tmpy;
+	t_brezenheim		b;
 
 	y = -1;
 	while (++y < e->ylen && (x = -1))
 	{
 		while (++x < e->xlen)
 		{
-			tmpz = e->field_ptr[y][x]->z;
-			tmpy = e->field_ptr[y][x]->y;
-			e->field_ptr[y][x]->y = tmpy * (cos(Q)) + tmpz * (sin(Q) * quarter);
-			e->field_ptr[y][x]->z = ((-tmpy * sin(Q)
+			tmpz = e->fld_ptr[y][x]->z;
+			tmpy = e->fld_ptr[y][x]->y;
+			e->fld_ptr[y][x]->y = tmpy * (cos(Q)) + tmpz * (sin(Q) * quarter);
+			e->fld_ptr[y][x]->z = ((-tmpy * sin(Q)
 						* quarter) + tmpz * cos(Q));
 		}
 	}
-	fdf_drawing_field(e);
+	fdf_drawing_field(e, -1, -1, &b);
 }
 
 void			fdf_rotate_y(t_env *e, int quarter)
 {
-	int		x;
-	int		y;
-	double	tmpz;
-	double	tmpx;
+	int					x;
+	int					y;
+	double				tmpz;
+	double				tmpx;
+	t_brezenheim		b;
 
 	y = -1;
 	while (++y < e->ylen && (x = -1))
 	{
 		while (++x < e->xlen)
 		{
-			tmpz = e->field_ptr[y][x]->z;
-			tmpx = e->field_ptr[y][x]->x;
-			e->field_ptr[y][x]->x = tmpx * (cos(Q)) + (tmpz * sin(Q) * quarter);
-			e->field_ptr[y][x]->z = (-tmpx * sin(Q) * quarter) + tmpz * cos(Q);
+			tmpz = e->fld_ptr[y][x]->z;
+			tmpx = e->fld_ptr[y][x]->x;
+			e->fld_ptr[y][x]->x = tmpx * (cos(Q)) + (tmpz * sin(Q) * quarter);
+			e->fld_ptr[y][x]->z = (-tmpx * sin(Q) * quarter) + tmpz * cos(Q);
 		}
 	}
-	fdf_drawing_field(e);
+	fdf_drawing_field(e, -1, -1, &b);
 }
 
 void			fdf_rotate_z(t_env *e, int quarter)
 {
-	int		x;
-	int		y;
-	double	tmpy;
-	double	tmpx;
+	int					x;
+	int					y;
+	double				tmpy;
+	double				tmpx;
+	t_brezenheim		b;
 
 	y = -1;
 	while (++y < e->ylen && (x = -1))
 	{
 		while (++x < e->xlen)
 		{
-			tmpy = e->field_ptr[y][x]->y;
-			tmpx = e->field_ptr[y][x]->x;
-			e->field_ptr[y][x]->x = tmpx * (cos(Q)) + (tmpy * sin(Q) * quarter);
-			e->field_ptr[y][x]->y = (-tmpx * sin(Q) * quarter) + tmpy * cos(Q);
+			tmpy = e->fld_ptr[y][x]->y;
+			tmpx = e->fld_ptr[y][x]->x;
+			e->fld_ptr[y][x]->x = tmpx * (cos(Q)) + (tmpy * sin(Q) * quarter);
+			e->fld_ptr[y][x]->y = (-tmpx * sin(Q) * quarter) + tmpy * cos(Q);
 		}
 	}
-	fdf_drawing_field(e);
+	fdf_drawing_field(e, -1, -1, &b);
 }
 
 void			fdf_change_rotation_angle(t_env *e, int keycode)

@@ -16,6 +16,7 @@ static	int		get_middle_color(int times)
 {
 	int		color;
 
+	color = 0;
 	if (times == 0)
 		color = 98;
 	else if (times == 1)
@@ -29,6 +30,7 @@ static int		get_minor_color(int times)
 {
 	int		color;
 
+	color = 0;
 	if (times == 0)
 		color = 80;
 	else if (times == 1)
@@ -42,6 +44,7 @@ static int		get_top_color(int times)
 {
 	int		color;
 
+	color = 0;
 	if (times == 0)
 		color = 51;
 	else if (times == 1)
@@ -56,6 +59,7 @@ int				fdf_pxl_color(int main_color)
 	int				color;
 	static int		times = 0;
 
+	color = 0;
 	if (main_color == 0 || (main_color == 1) || (main_color == -1)
 		|| (main_color >= 2 && main_color <= 3)
 		|| (main_color <= -2 && main_color >= -3)
