@@ -6,7 +6,7 @@
 #    By: apinchuk <apinchuk@student.unit.ua>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/07 14:02:20 by apinchuk          #+#    #+#              #
-#    Updated: 2016/12/06 15:12:51 by apinchuk         ###   ########.fr        #
+#    Updated: 2017/07/01 12:53:17 by rbozhko          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,15 +38,16 @@ HEADER = libft.h
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	ar rc $(NAME) $(OBJ)
+	@ar rc $(NAME) $(OBJ)
+	@echo "\033[0;31mLibft is compiled\033[0m"
 
 %.o : %.c $(HEADER)
-	$(CC) $(CFLAGS) $<
+	@$(CC) $(CFLAGS) $<
 
 clean:
-	rm -rf $(OBJ)
+	@rm -rf $(OBJ)
 
 fclean: clean
-	rm -rf $(NAME)
+	@rm -rf $(NAME)
 
 re: fclean all

@@ -6,7 +6,7 @@
 /*   By: apinchuk <apinchuk@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/29 13:18:23 by apinchuk          #+#    #+#             */
-/*   Updated: 2016/12/10 16:10:20 by apinchuk         ###   ########.fr       */
+/*   Updated: 2017/06/22 13:15:39 by rbozhko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,4 +24,3 @@ void	*ft_memcpy(void *destination, const void *source, size_t n)
 	}
 	return (destination);
 }
-

@@ -6,7 +6,7 @@
 /*   By: rbozhko <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/24 15:24:01 by rbozhko           #+#    #+#             */
-/*   Updated: 2017/05/24 17:36:32 by rbozhko          ###   ########.fr       */
+/*   Updated: 2017/06/29 18:24:26 by rbozhko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,8 @@ typedef struct	s_env
 	int				endian;
 	int				bpp;
 	t_pnt			***fld_ptr;
+	int				y;
+	int				x;
 }				t_env;
 
 t_env			*fdf_create_structures_arr(char *av, t_env *e);
@@ -77,7 +79,7 @@ void			fdf_no_map(void);
 void			fdf_exit(t_env *e);
 void			fdf_malloc_fail(void);
 void			fdf_error(t_env *e);
-int				key_hook(int keycode, t_env *e);
+void			fdf_wrong_size_error(int flag);
 void			fdf_img_to_centre(t_env *e);
 void			fdf_create_new_img(t_env *e);
 int				fdf_pxl_color(int main_color);
@@ -91,4 +93,5 @@ void			fdf_change_rotation_angle(t_env *e, int keycode);
 void			fdf_gradient(t_env *e);
 void			fdf_bresenheim(t_brezenheim *b, t_pnt *pnt1, t_env *e);
 long int		fdf_get_pnt_distance_grad(t_pnt *pnt1, t_pnt *pnt2, int error2);
+void			fdf_isometric(t_env *e, t_brezenheim *b);
 #endif

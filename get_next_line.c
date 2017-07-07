@@ -1,65 +1,85 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rbozhko <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/02/22 15:58:24 by rbozhko           #+#    #+#             */
+/*   Updated: 2017/06/21 17:09:32 by rbozhko          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "get_next_line.h"
 
-t_list  *new_elem(int fd)
+static t_node	*ft_create(int fd)
 {
-    t_list *temp;
+	t_node	*temp;
 
-    temp = (t_list*)malloc(sizeof(t_list));
-    (fd >= 0) ? temp->fd = fd : 0;
-    temp->str = ft_strnew(0);
-    return (temp);
+	temp = (t_node*)malloc(sizeof(t_node));
+	(fd >= 0) ? temp->fd = fd : 0;
+	temp->str = ft_strnew(0);
+	temp->next = NULL;
+	return (temp);
 }
 
-t_list *compare_fd(int fd, t_list *MAIN)
+static t_node	*ft_cmp_fd(int fd, t_node *demo)
 {
-    t_list  *i;
+	t_node	*temp;
 
-    i = MAIN;
-    while(i)
-    {
-        if(i->fd == fd)
-            return (i);
-        if(i->next == NULL)
-            i->next = new_elem(fd);
-        i = i->next;
-    }
-    return(i);
+	temp = demo;
+	while (temp)
+	{
+		if (temp->fd == fd)
+			break ;
+		(!(temp->next)) ? temp->next = ft_create(fd) : 0;
+		temp = temp->next;
+	}
+	return (temp);
 }
 
-int write_in_line (t_list *i, char **line)
+static int		ft_rtn_line(t_node *temp, char buff[], char **line)
 {
-        *line = ft_strsub(i->str, 0, (ft_strchr(i->str, 10) - i->str));
-        i->str += (ft_strchr(i->str, 10) - i->str);
-        return(1);
+	if (ft_strchr(temp->str, '\n'))
+	{
+		*line = ft_strsub(temp->str, 0, S_C_SUB);
+		temp->str += S_C_SUB;
+		return (1);
+	}
+	else if ((!(ft_strchr(temp->str, '\n'))) && ft_strlen(buff) == 0)
+	{
+		*line = ft_strdup(temp->str);
+		ft_memset(temp->str, 0, ft_strlen(temp->str));
+		return (1);
+	}
+	return (0);
 }
 
-int get_next_line   (const int fd, char **line)
+int				get_next_line(const int fd, char **line)
 {
-    char buffer[BUFF_SIZE + 1];
-    static t_list *MAIN = NULL;
-    ssize_t symbols;
-    t_list *i;
+	static	t_node		*head = NULL;
+	t_node				*temp;
+	int					bytes;
+	char				buff[BUFF_SIZE + 1];
 
-
-    if (fd == -1 || (!line) || (read(fd, NULL, 0) == -1) || !(ft_memset(buffer, 0, (BUFF_SIZE + 1))))
-        return (-1);
-    (MAIN == NULL) ? MAIN = new_elem(fd) : 0;
-    i = compare_fd(fd, MAIN);
-    while((symbols = read(fd, buffer, BUFF_SIZE)) >= 0)
-    {
-        (symbols < BUFF_SIZE) ? buffer[symbols] = '\0' : 0;
-        i->str = ft_strjoin(i->str, buffer);
-        i->str += (i->str[0] == '\n') ? 1 : 0;
-        if (ft_strchr(i->str, 10))
-            return (write_in_line(i, line));
-        if(i->str[ft_strlen(i->str) - 1] != '\n' && ft_strlen(buffer) == 0)
-        {
-            i->str[ft_strlen(i->str)] = '\n';
-            i->str[ft_strlen(i->str) + 1] = '\0';
-            continue ;
-        }
-        if(symbols == 0)
-            return (0);
-    }
-    return (1);
+	if (IF_FP || IF_SP)
+		return (-1);
+	!(head) ? head = ft_create(fd) : 0;
+	temp = ft_cmp_fd(fd, head);
+	while ((bytes = read(fd, buff, BUFF_SIZE)) >= 0)
+	{
+		(bytes < BUFF_SIZE) ? buff[bytes] = '\0' : 0;
+		temp->str = ft_strjoin(temp->str, buff);
+		(temp->str[0] == '\n') ? temp->str += 1 : 0;
+		if (ft_strlen(temp->str) > 0)
+		{
+			if ((ft_strchr(temp->str, 10))
+					|| ((!ft_strchr(temp->str, 10)) && ft_strlen(buff) == 0))
+				if (ft_rtn_line(temp, buff, line) == 1)
+					return (1);
+		}
+		else if (bytes == 0)
+			return (0);
+	}
+	return (0);
 }

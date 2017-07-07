@@ -6,13 +6,13 @@
 /*   By: rbozhko <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/22 14:28:00 by rbozhko           #+#    #+#             */
-/*   Updated: 2017/06/07 13:25:57 by rbozhko          ###   ########.fr       */
+/*   Updated: 2017/06/29 17:26:14 by rbozhko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-static void		fdf_drawing_pxl(t_env *e, t_brezenheim *b)
+static	void		fdf_drawing_pxl(t_env *e, t_brezenheim *b)
 {
 	if (DRAWING_PXL_COND)
 	{
@@ -22,7 +22,26 @@ static void		fdf_drawing_pxl(t_env *e, t_brezenheim *b)
 	}
 }
 
-void			fdf_bresenheim(t_brezenheim *b, t_pnt *pnt1, t_env *e)
+void				fdf_isometric(t_env *e, t_brezenheim *b)
+{
+	int x;
+	int y;
+
+	y = -1;
+	while (++y < e->ylen && (x = -1))
+	{
+		while (++x < e->xlen)
+		{
+			e->fld_ptr[y][x]->y = (e->fld_ptr[y][x]->x + 2 *
+					e->fld_ptr[y][x]->y + e->fld_ptr[y][x]->z) / sqrt(6);
+			e->fld_ptr[y][x]->x = ((sqrt(3) * e->fld_ptr[y][x]->x)
+					- (sqrt(3) * e->fld_ptr[y][x]->z)) / sqrt(6);
+		}
+	}
+	fdf_drawing_field(e, -1, -1, b);
+}
+
+void				fdf_bresenheim(t_brezenheim *b, t_pnt *pnt1, t_env *e)
 {
 	b->x = (int)pnt1->x;
 	b->y = (int)pnt1->y;
@@ -51,7 +70,7 @@ void			fdf_bresenheim(t_brezenheim *b, t_pnt *pnt1, t_env *e)
 	fdf_drawing_pxl(e, b);
 }
 
-void			fdf_drawing_field(t_env *e, int x, int y, t_brezenheim *b)
+void				fdf_drawing_field(t_env *e, int x, int y, t_brezenheim *b)
 {
 	t_pnt				pnt;
 
@@ -77,5 +96,5 @@ void			fdf_drawing_field(t_env *e, int x, int y, t_brezenheim *b)
 			}
 		}
 	}
-	mlx_put_image_to_window(e->mlx_ptr, e->win_ptr, e->img_ptr, 0, 0);
+	mlx_put_image_to_window(e->mlx_ptr, e->win_ptr, e->img_ptr, e->x, e->y);
 }

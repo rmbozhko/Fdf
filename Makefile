@@ -10,15 +10,19 @@ HEADER = fdf.h
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	$(CC) $(OBJ) -L./libft -lft -lmlx -framework OpenGL -framework AppKit -o $(NAME) 
+	@make -C libft
+	@$(CC) $(OBJ) -L./libft -lft -lmlx -framework OpenGL -framework AppKit -o $(NAME)
+	@echo "\033[0;32mFdf is compiled\033[0m"
 
 %.o : %.c $(HEADER)
-	$(CC) $(CFLAGS) $<
+	@$(CC) $(CFLAGS) $<
 
 clean:
-	rm -rf $(OBJ)
+	@make clean -C libft
+	@rm -rf $(OBJ)
 
 fclean: clean
-	rm -rf $(NAME)
+	@make fclean -C libft
+	@rm -rf $(NAME)
 
 re: fclean all
