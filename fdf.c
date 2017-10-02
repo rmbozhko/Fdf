@@ -70,7 +70,7 @@ static	int			expose_hook(t_env *e)
 
 int					main(int argc, char **argv)
 {
-	t_env				e;
+	t_env				*e;
 	t_brezenheim		b;
 
 	if (argc != 2)
@@ -78,19 +78,20 @@ int					main(int argc, char **argv)
 		printf("No map was passed ....\n");
 		return (-1);
 	}
-	e.av = argv[0];
-	e.mlx_ptr = mlx_init();
-	e.img_ptr = NULL;
+	e = (t_env*)malloc(sizeof(t_env*));
+	e->av = argv[0];
+	e->mlx_ptr = mlx_init();
+	e->img_ptr = NULL;
 	b.error2 = 0;
-	e.y = 0;
-	e.x = 0;
-	e.angle = 1;
-	fdf_create_structures_arr(argv[1], &e);
-	e.win_ptr = mlx_new_window(e.mlx_ptr, e.win_img_size,
-			e.win_img_size, "FDF 42");
-	fdf_isometric(&e, &b);
-	mlx_hook(e.win_ptr, 2, 0, key_hook, &e);
-	mlx_expose_hook(e.win_ptr, expose_hook, &e);
-	mlx_loop(e.mlx_ptr);
+	e->y = 0;
+	e->x = 0;
+	e->angle = 1;
+	fdf_create_structures_arr(argv[1], e);
+	e->win_ptr = mlx_new_window(e->mlx_ptr, e->win_img_size,
+			e->win_img_size, "FDF 42");
+	fdf_isometric(e, &b);
+	mlx_hook(e->win_ptr, 2, 0, key_hook, e);
+	mlx_expose_hook(e->win_ptr, expose_hook, e);
+	mlx_loop(e->mlx_ptr);
 	return (0);
 }
